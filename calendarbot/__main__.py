@@ -16,9 +16,8 @@ PORT = os.getenv("PORT")
 TOKEN = os.getenv("TG_TOKEN")
 
 
-def run_local(updater):
+def run_local(updater: Updater):
     updater.start_polling()
-
 
 def run_prod(updater):
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME")
