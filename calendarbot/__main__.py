@@ -5,7 +5,7 @@ import random
 import sys
 
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
+from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters
 
 logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -18,6 +18,7 @@ TOKEN = os.getenv("TG_TOKEN")
 
 def run_local(updater: Updater):
     updater.start_polling()
+
 
 def run_prod(updater):
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME")
@@ -37,8 +38,12 @@ def start_handler(update: Update, context: CallbackContext):
 def random_handler(update: Update, context: CallbackContext):
     # Creating a handler-function for /random command
     number = random.randint(0, 10)
-    logger.info("User {} randomed number {}".format(update.effective_user.id, number))
-    update.message.reply_text("Random number: {}".format(number))
+
+
+def message_handler(update: Update, context: CallbackContext):
+    # Creating a handler-function for all messages
+    logger.info("User {} sent message: {}".format(update.effective_user.id, update.message.text))
+    update.message.reply_text("You sent me: {}".format(update.message.text))
 
 
 if __name__ == '__main__':
@@ -46,7 +51,8 @@ if __name__ == '__main__':
     updater = Updater(TOKEN)
 
     updater.dispatcher.add_handler(CommandHandler("start", start_handler))
-    updater.dispatcher.add_handler(CommandHandler("random", random_handler))
+    updater.dispatcher.add_handler(CommandHandler("addevent", random_handler))
+    updater.dispatcher.add_handler(MessageHandler(Filters.text, message_handler))
 
     if "HEROKU" in list(os.environ.keys()):
         run_prod(updater)
