@@ -30,42 +30,6 @@ def run_prod(updater):
     # updater.message.reply_text(main_menu_message(), reply_markup=main_menu_keyboard())
 
 
-###########################################################################################################
-def main_menu(update, context):
-    query = update.callback_query
-    query.answer()
-    query.edit_message_text(
-        text=main_menu_message(),
-        reply_markup=main_menu_keyboard())
-
-
-def first_menu(update, context):
-    query = update.callback_query
-    query.answer()
-    query.edit_message_text(
-        text=add_event_menu_message(),
-        reply_markup=add_event_menu_keyboard())
-
-
-def second_menu(update, context):
-    query = update.callback_query
-    query.answer()
-    query.edit_message_text(
-        text=view_events_menu_message(),
-        reply_markup=view_events_menu_keyboard())
-    update.message.reply_text(query.data)
-
-
-# and so on for every callback_data option
-def first_submenu(bot, update):
-    # query = bot.callback_query
-    pass
-
-
-def second_submenu(bot, update):
-    pass
-
-
 ############################ Keyboards #########################################
 def main_menu_keyboard():
     keyboard = [[KeyboardButton('Aggiungi evento')],
@@ -101,6 +65,7 @@ def view_events_menu_message():
     return 'Quali eventi vuoi visualizzare?'
 
 
+################################ Handlers ######################################
 def start_handler(update: Update, context: CallbackContext):
     # Creating a handler-function for /start command
     logger.info("User {} started bot".format(update.effective_user.id))
