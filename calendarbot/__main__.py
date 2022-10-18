@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger()
 
 # Getting mode, so we could define run function for local and Heroku setup
-PORT = os.getenv("PORT")
+PORT = int(os.environ.get("PORT"))
 TOKEN = os.getenv("TG_TOKEN")
 
 
